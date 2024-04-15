@@ -17,12 +17,15 @@ target_sources(robotics_lib_utils PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/ut
 
 # Robot library
 set(SRCS
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/robot.cc"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/three_joint_robot.cc"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/transformations.cc"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/kinematics.cc"
 )
 set(HDRS
   "${CMAKE_CURRENT_SOURCE_DIR}/include/robot.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/three_joint_robot.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/include/transformations.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/kinematics.h"
 )
 add_library(robotics_lib)
 target_sources(robotics_lib PUBLIC ${HDRS} PRIVATE ${SRCS})
@@ -44,7 +47,7 @@ target_include_directories(robotics_lib
 
 
 add_executable(main main.cc)
-target_link_libraries(main Eigen3::Eigen robotics_lib)
+target_link_libraries(main robotics_lib absl::strings absl::span)
 target_include_directories(main PUBLIC "${PROJECT_SOURCE_DIR}/inlcude")
 
 
@@ -77,10 +80,15 @@ endmacro()
 
 AddTest(
   NAME robot_test
-  SOURCE  "${CMAKE_CURRENT_SOURCE_DIR}/src/robot_test.cc"
+  SOURCE  "${CMAKE_CURRENT_SOURCE_DIR}/tests/three_joint_robot_test.cc"
 )
 
 AddTest(
   NAME transformations_test
-  SOURCE  "${CMAKE_CURRENT_SOURCE_DIR}/src/transformations_test.cc"
+  SOURCE  "${CMAKE_CURRENT_SOURCE_DIR}/tests/transformations_test.cc"
+)
+
+AddTest(
+  NAME kinematics_test
+  SOURCE  "${CMAKE_CURRENT_SOURCE_DIR}/tests/kinematics_test.cc"
 )

@@ -1,49 +1,61 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
+#include <vector>
+#include <array>
 #include "absl/types/span.h"
 #include "absl/strings/string_view.h"
-#include <array>
+
 
 namespace alaurens {
 
+// Interface for a serial robot. Implementations of this class should pay
+// attention to not allocating any memory after the object has been been
+// created.
 class Robot {
+
  public:
-  struct JointParameter {
-    // Distance in m of the frame of joint i from the frame of joint i-1 frame
-    // along the x axis of joint i-1.
-    double link_length;
-    // Rotation matrix describing the orientation frame of joint i in the 
-    // frame joint of joint i-1 when joint i is at 0.
-    std::array<double, 9> orientation_rotation_frame;
+
+  // Holds one set Denavit-Hartenberg parameters.
+  // 
+  // The naming of the parameters is based on  Appendix C of the 2019 edition
+  // of "Modern Robotics Mechanics, Planning and Control." By Kevin M.Lynch
+  // and Frank C.Park. We assume that angles are given in radians and distances
+  // in meters.
+  //
+  // Attributes:
+  // - a: In meters, the length of the mutually perpendicular line between the
+  //   axis z_(i-1) and z_i along the direction x_(i-1).
+  // - alpha: The angle in radians from z_(i-1) to z_i measured about x_(i-1)
+  // - d: The distance from the intersection of x_(i-1) and z_i to the origin of
+  //   the ith frame along the z_i axis.
+  // - phi: The angle in radians from x_(i-1) to x_i measured along the z_i 
+  //   axis.
+  struct DHParameters {
+    double a;
+    double alpha;
+    double d;
+    double phi;
   };
 
-  explicit Robot(
-    absl::string_view name,
-    absl::Span<JointParameter> joint_parameters,
-    absl::Span<const double> world_to_first_joint_transform,
-    absl::Span<const double> last_joint_to_end_effector_transform
-  );
+  virtual absl::string_view Name() const = 0;
 
-  Robot(const Robot&) = delete;
-  Robot& operator=(const Robot&) = delete;
+  // Returns the Denavit-Hartenberg parameters of the robot. As described in
+  // the Appendix C of the 2019 edition of "Modern Robotics Mechanics, Planning
+  // and Control." By Kevin M.Lynch and Frank C.Park.
+  virtual absl::Span<const DHParameters> GetDHParameters() const = 0;
 
-  void ForwardKinematics(absl::Span<double> result) const; 
+  // Returns the homoegenous transform describing the transformation from the
+  // base frame of the robot to the first frame of used in the
+  // Denavit-Hartenberg representation of the robot. The homoegeneous matrix 
+  // is given using row major convention.
+  virtual absl::Span<const double> RobotBaseToDHFirstFrame() const = 0;
 
-  void Jacobian(absl::Span<double> result) const;
-
-  void UpdateRobotState(absl::Span<const double> joint_configuration);
-
- private:
-
-  void ComputeDHParmameters(absl::Span<const double> joint_configuration);
-
-  std::string name_;
-  int number_of_joints_;
-  std::vector<JointParameter> joint_parameters_;
-  std::vector<std::array<double, 4>> dh_parameters_;
-  std::array<double, 16> world_to_first_joint_transform_;
-  std::array<double, 16> last_joint_to_end_effector_transform_;
+  // Returns the homoegenous transform describing the transformation from the
+  // the last frame of used in the Denavit-Hartenberg representation of the
+  // robot to the end effector frame. The homoegeneous matrix is given using
+  // row major convention.
+  virtual absl::Span<const double> DHLastFrameToEndEffectorFrame() const = 0;
 
 };
 
