@@ -11,10 +11,13 @@
 
 int main(int argc, char* argv[]){
 
+  // Change the link lengths of the robot here.
   std::array<double, 4> link_lengths{1.0, 1.0, 1.0, 1.0};
   std::unique_ptr<alaurens::ThreeJointRobot> robot( 
       std::make_unique<alaurens::ThreeJointRobot>("robot", link_lengths)
   );
+
+  // Change the joint configuration of the robot here.
   robot->UpdateRobotState({M_PI / 2, 0.0, 0.0});
   std::array<double, 16> result;
   alaurens::ForwardKinematics(*robot, absl::MakeSpan(result));
