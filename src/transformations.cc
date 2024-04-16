@@ -15,7 +15,7 @@ void ApplyTransformationToVector(
   ThrowIfSpanWrongSize(transform, 16);
   ThrowIfSpanWrongSize(vec, 4);
   ThrowIfSpanWrongSize(absl::Span<const double>(result), 4);
-  if (vec == result)
+  if (vec.data() == result.data())
     throw std::invalid_argument(
       "result and vec must should point to different data."
     );
@@ -38,7 +38,7 @@ void CombineTransforms(
   ThrowIfSpanWrongSize(transform1, 16);
   ThrowIfSpanWrongSize(transform2, 16);
   ThrowIfSpanWrongSize(absl::Span<const double>(result), 16);
-  if (transform1 == result || transform2 == result)
+  if (transform1.data() == result.data() || transform2.data() == result.data())
     throw std::invalid_argument(
       "result must point to different data than both transform1 and transform2."
     );
