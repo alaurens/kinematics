@@ -5,8 +5,10 @@
 
 namespace alaurens {
 
-void ForwardKinematics(const Robot& robot,  absl::Span<double> result) {
-  ThrowIfSpanWrongSize(absl::Span<const double>(result), 16);
+void ForwardKinematics(const Robot& robot,  absl::Span<double> base_to_end_effector_transform) {
+  ThrowIfSpanWrongSize(
+      absl::Span<const double>(base_to_end_effector_transform), 16
+  );
 
   // Setup the buffers.
   std::array<double, 16> dh_transform;
@@ -41,7 +43,9 @@ void ForwardKinematics(const Robot& robot,  absl::Span<double> result) {
 
   // We apply the final transformation to get the end effector frame.
   CombineTransforms(
-      previous_transform_span, robot.DHLastFrameToEndEffectorFrame(), result
+      previous_transform_span,
+      robot.DHLastFrameToEndEffectorFrame(),
+      base_to_end_effector_transform
   );
   return;
 }

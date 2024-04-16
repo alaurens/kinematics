@@ -22,9 +22,9 @@ namespace alaurens {
 //
 // Throws:
 // - If `result.size != 16`.
-void ForwardKinematics(const Robot& robot, absl::Span<double> result);
-
-
+void ForwardKinematics(
+    const Robot& robot, absl::Span<double> base_to_end_effector_transform
+);
 
 }
 
