@@ -1,4 +1,3 @@
-
 #include "robot.h"
 #include "absl/types/span.h"
 #include "transformations.h"
