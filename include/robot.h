@@ -1,8 +1,6 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-#include <vector>
-#include <array>
 #include "absl/types/span.h"
 #include "absl/strings/string_view.h"
 

@@ -1,7 +1,6 @@
 #include "robot.h"
 #include "absl/types/span.h"
 #include "absl/strings/string_view.h"
-#include <vector>
 #include <array>
 
 namespace alaurens {

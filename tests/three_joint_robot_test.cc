@@ -1,10 +1,9 @@
 #include "three_joint_robot.h"
 #include <gtest/gtest.h>
 #include "gmock/gmock.h"
-#include <vector>
-#include <array>
 #include "absl/types/span.h"
 #include "math.h"
+#include <array>
 
 namespace alaurens {
 
