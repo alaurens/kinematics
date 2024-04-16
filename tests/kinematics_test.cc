@@ -4,7 +4,6 @@
 #include "gmock/gmock.h"
 #include "absl/types/span.h"
 #include <cmath>
-
 #include <array>
 
 namespace alaurens {

@@ -4,7 +4,6 @@
 #include "absl/types/span.h"
 #include "absl/strings/string_view.h"
 
-
 namespace alaurens {
 
 // Interface for a serial robot. Implementations of this class should pay

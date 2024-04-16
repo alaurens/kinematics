@@ -7,6 +7,9 @@
 
 namespace alaurens {
 
+using ::testing::Pointwise;
+using ::testing::DoubleEq;
+
 TEST(ThreeJointRobotTest, AssertThrowWithInvalidLinkSize) {
   // Test with negative link size.
   ASSERT_THROW(
@@ -25,8 +28,8 @@ TEST(ThreeJointRobotTest, RobotBaseToDHFirstFrame) {
   ThreeJointRobot robot("robot", {1.0, 2.0, 3.0, 4.0});
   EXPECT_THAT(
     robot.RobotBaseToDHFirstFrame(),
-    ::testing::Pointwise(
-        ::testing::DoubleEq(), std::array<double, 16>{
+    Pointwise(
+        DoubleEq(), std::array<double, 16>{
         1.0, 0.0, 0.0, 0.0,
         0.0, 1.0, 0.0, 0.0,
         0.0, 0.0, 1.0, 1.0,
@@ -39,8 +42,8 @@ TEST(ThreeJointRobotTest, DHLastFrameToEndeffectorFrame) {
   ThreeJointRobot robot("robot", {1.0, 2.0, 3.0, 4.0});
   EXPECT_THAT(
     robot.DHLastFrameToEndEffectorFrame(),
-    ::testing::Pointwise(
-        ::testing::DoubleEq(), std::array<double, 16>{
+    Pointwise(
+        DoubleEq(), std::array<double, 16>{
         1.0, 0.0, 0.0, 0.0,
         0.0, 1.0, 0.0, 0.0,
         0.0, 0.0, 1.0, 4.0,
