@@ -6,11 +6,11 @@ serial robot.
 ## Installation, tests and example.
 
 #### Before installing
-Before installing please ensure that you have downloaded installed:
+Before installing please ensure that you have downloaded and installed:
 - cmake
-- Eigen
-- Abseil
-- google_test and google_mock
+- [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page)
+- [Abseil](https://abseil.io/docs/cpp/quickstart-cmake.html)
+- [google_test and google_mock](https://github.com/google/googletest/blob/main/googletest/README.md)
 
 
 #### Installation
@@ -18,7 +18,7 @@ To install the library, please `git clone` this repository and build in using
 cmake using the following set of commands:
 
 ```
-git clone something something
+git clone https://github.com/alaurens/kinematics.git
 mkdir build
 cd build 
 cmake ../
